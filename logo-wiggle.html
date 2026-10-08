@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta name="robots" content="noindex,nofollow"><style>html{visibility:hidden}</style><script type="module" src="gate.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三隻魚 · 身體波動 原型 | 三知餘</title>
+<style>
+:root{--bg:#F7F5F0}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#F7F5F0;color:#14202B;font:15px/1.6 "Noto Sans TC",system-ui,sans-serif}
+.wrap{min-height:100vh;display:grid;place-items:center;gap:12px;align-content:center;padding:14px}
+.stage{width:min(96vw,1100px);aspect-ratio:16/9;background:var(--bg);border:1px solid #DDD8CE;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 14px 40px -24px rgba(20,32,43,.35)}
+canvas{position:absolute;left:50%;top:50%;width:64%;transform:translate(-50%,-52%)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center}
+button{font:700 .92rem "Noto Sans TC",sans-serif;padding:.5em 1.2em;border-radius:999px;border:2px solid #14202B;background:transparent;color:#14202B;cursor:pointer;transition:background .2s,color .2s}
+button:hover{background:#14202B;color:#F7F5F0}
+label{font-size:.85rem;color:#5B6773;display:flex;gap:6px;align-items:center}
+small{color:#5B6773}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="stage" id="stage"><canvas id="c" width="1666" height="1028"></canvas></div>
+  <div class="ctl">
+    <button id="replay">重播</button>
+    <button id="bg">換底色</button>
+    <label>波動幅度 <input id="amp" type="range" min="0" max="2" step="0.1" value="1"></label>
+    <label>頻率 <input id="freq" type="range" min="0.5" max="3" step="0.1" value="1.6"></label>
+  </div>
+  <small>身體波動原型：把每隻魚沿身體軸切成細條，依相位位移，頭穩、尾擺。不需要任何骨架工具。</small>
+</div>
+<script>
+const W = 1666, H = 1028;
+const BOX = { fish_small: [456, 304, 834, 473], fish_big: [578, 220, 1144, 632], fish_red: [749, 366, 1184, 720] };
+const DELAY = { fish_small: 0.25, fish_big: 0.6, fish_red: 0.95 };
+const c = document.getElementById('c'), ctx = c.getContext('2d');
+const params = new URLSearchParams(location.search);
+let AMP = 1, FREQ = 1.6;
+const bgs = ['#F7F5F0', '#FAC02C', '#E8F1F7', '#FFF4D6']; let bgi = 0;
+
+function load(src) { return new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = src; }); }
+
+function prep(img, box) {
+  const [bx, by, bx2, by2] = box, w = bx2 - bx, h = by2 - by;
+  const crop = document.createElement('canvas'); crop.width = w; crop.height = h;
+  const cctx = crop.getContext('2d'); cctx.drawImage(img, bx, by, w, h, 0, 0, w, h);
+  const d = cctx.getImageData(0, 0, w, h).data;
+  let n = 0, sx = 0, sy = 0;
+  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) if (d[(y * w + x) * 4 + 3] > 128) { n++; sx += x; sy += y; }
+  const cx = sx / n, cy = sy / n; let sxx = 0, syy = 0, sxy = 0;
+  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) if (d[(y * w + x) * 4 + 3] > 128) { const dx = x - cx, dy = y - cy; sxx += dx * dx; syy += dy * dy; sxy += dx * dy; }
+  let th = 0.5 * Math.atan2(2 * sxy, sxx - syy);
+  let ux = Math.cos(th), uy = Math.sin(th);
+  if (ux < 0) { ux = -ux; uy = -uy; }
+  th = Math.atan2(uy, ux);
+  const D = Math.ceil(Math.hypot(w, h));
+  const al = document.createElement('canvas'); al.width = D; al.height = D;
+  const a = al.getContext('2d'); a.translate(D / 2, D / 2); a.rotate(-th); a.translate(-cx, -cy); a.drawImage(crop, 0, 0);
+  const ad = a.getImageData ? (a.setTransform(1, 0, 0, 1, 0, 0), a.getImageData(0, 0, D, D).data) : null;
+  let minX = D, maxX = 0;
+  for (let x = 0; x < D; x += 2) { for (let y = 0; y < D; y += 4) { if (ad[(y * D + x) * 4 + 3] > 20) { if (x < minX) minX = x; if (x > maxX) maxX = x; break; } } }
+  return { al, D, th, gx: bx + cx, gy: by + cy, minX, maxX };
+}
+
+const ease = t => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+let F = {}, textImg;
+
+function drawFish(f, name, t) {
+  const t0 = DELAY[name], p = (t - t0) / 1.5;
+  if (p <= 0) return;
+  const e = ease(p), cosT = Math.cos(f.th), sinT = Math.sin(f.th);
+  const back = 560 * (1 - e);
+  const gx = f.gx - cosT * back, gy = f.gy - sinT * back + 90 * (1 - e);
+  const swim = 1 - e;
+  const amp = (6 + 24 * swim) * AMP;
+  const w = 2 * Math.PI * 2.4;
+  const N = 40, span = f.maxX - f.minX, sw = span / N;
+  ctx.save();
+  ctx.globalAlpha = Math.min(1, p * 4);
+  ctx.translate(gx, gy); ctx.rotate(f.th + Math.sin(t * 3 + t0) * 0.02 * AMP);
+  for (let i = 0; i < N; i++) {
+    const sx = f.minX + i * sw, s = 1 - (i + 0.5) / N;
+    const env = Math.pow(s, 1.25);
+    const y = amp * env * Math.sin(2 * Math.PI * FREQ * s - w * t + t0 * 6);
+    ctx.drawImage(f.al, sx, 0, sw + 1.5, f.D, sx - f.D / 2, -f.D / 2 + y, sw + 1.5, f.D);
+  }
+  ctx.restore();
+}
+
+function render(t) {
+  ctx.clearRect(0, 0, W, H);
+  for (const n of ['fish_small', 'fish_big', 'fish_red']) drawFish(F[n], n, t);
+  const q = Math.min(Math.max((t - 2.4) / 1.0, 0), 1);
+  if (q > 0) { const e = 1 - Math.pow(1 - q, 3); ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W * (0.28 + 0.44 * e), H); ctx.clip(); ctx.globalAlpha = Math.min(1, q * 3); ctx.drawImage(textImg, 0, 0); ctx.restore(); }
+}
+
+let start = performance.now(), raf;
+function loop() { render((performance.now() - start) / 1000); raf = requestAnimationFrame(loop); }
+(async () => {
+  const [a, b, r, tx] = await Promise.all(['fish_small', 'fish_big', 'fish_red', 'text'].map(n => load('logo-layers/' + n + '.png')));
+  F.fish_small = prep(a, BOX.fish_small); F.fish_big = prep(b, BOX.fish_big); F.fish_red = prep(r, BOX.fish_red); textImg = tx;
+  window.__ready = true; window.render = render; window.__F = F;
+  if (params.has('t')) { render(parseFloat(params.get('t'))); } else { loop(); }
+})();
+document.getElementById('replay').onclick = () => { start = performance.now(); };
+document.getElementById('bg').onclick = () => { bgi = (bgi + 1) % bgs.length; document.getElementById('stage').style.background = bgs[bgi]; start = performance.now(); };
+document.getElementById('amp').oninput = e => { AMP = +e.target.value; };
+document.getElementById('freq').oninput = e => { FREQ = +e.target.value; };
+</script>
+</body>
+</html>

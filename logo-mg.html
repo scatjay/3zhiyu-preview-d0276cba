@@ -7,12 +7,12 @@
 <style>
 :root{--yellow:#FAC02C;--ink:#1B0C0A;--blue:#116FB8;--red:#C30F23;--cream:#FFF4D6}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0e0b0a;color:#fff;font:15px/1.6 "Noto Sans TC",system-ui,sans-serif}
+html,body{margin:0;height:100%;background:#F7F5F0;color:#14202B;font:15px/1.6 "Noto Sans TC",system-ui,sans-serif}
 .wrap{min-height:100%;display:grid;place-items:center;padding:16px;gap:14px;align-content:center}
-.stage{position:relative;width:min(96vw,1100px);aspect-ratio:16/9;background:var(--yellow);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px -20px #000}
+.stage{position:relative;width:min(96vw,1100px);aspect-ratio:16/9;background:#F7F5F0;border:1px solid #DDD8CE;border-radius:14px;overflow:hidden;box-shadow:0 14px 40px -24px rgba(20,32,43,.35)}
 /* 水波 */
 .ripples{position:absolute;inset:0;width:100%;height:100%}
-.ripples path{fill:none;stroke:#fff;stroke-opacity:.55;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.ripples path{fill:none;stroke:#116FB8;stroke-opacity:.35;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
 .play .ripples path{animation:draw 1.6s cubic-bezier(.3,.7,.2,1) forwards}
 .ripples path:nth-child(2){animation-delay:.15s!important}.ripples path:nth-child(3){animation-delay:.3s!important}
 .ripples path:nth-child(4){animation-delay:.45s!important}.ripples path:nth-child(5){animation-delay:.6s!important}
@@ -38,14 +38,14 @@ html,body{margin:0;height:100%;background:#0e0b0a;color:#fff;font:15px/1.6 "Noto
 .play .text{animation:reveal 1.1s cubic-bezier(.6,0,.2,1) 2s forwards}
 @keyframes reveal{to{opacity:1;clip-path:inset(0 0 0 0)}}
 /* 收尾的光點 */
-.spark{position:absolute;border-radius:50%;background:#fff;opacity:0;width:1.2%;aspect-ratio:1}
+.spark{position:absolute;border-radius:50%;background:#116FB8;opacity:0;width:1.2%;aspect-ratio:1}
 .play .spark{animation:twinkle 1.6s ease-out 2.9s forwards}
 .spark.a{left:62%;top:30%}.spark.b{left:70%;top:44%;animation-delay:3.1s!important}.spark.c{left:34%;top:42%;animation-delay:3.3s!important}
 @keyframes twinkle{0%{opacity:0;transform:scale(.2)}30%{opacity:.95;transform:scale(1.6)}100%{opacity:0;transform:scale(.6)}}
 .ctl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-button{font:700 .95rem "Noto Sans TC",sans-serif;padding:.6em 1.3em;border-radius:999px;border:2px solid #FAC02C;background:transparent;color:#FAC02C;cursor:pointer;transition:background .2s,color .2s}
-button:hover{background:#FAC02C;color:#1B0C0A}
-small{color:#b9ac8a}
+button{font:700 .92rem "Noto Sans TC",sans-serif;padding:.5em 1.2em;border-radius:999px;border:2px solid #14202B;background:transparent;color:#14202B;cursor:pointer;transition:background .2s,color .2s}
+button:hover{background:#14202B;color:#F7F5F0}
+small{color:#5B6773}
 @media (prefers-reduced-motion:reduce){.logo img{opacity:1!important;transform:none!important;animation:none!important;clip-path:none!important}.ripples path{stroke-dashoffset:0!important;animation:none!important}}
 </style>
 </head>
@@ -74,7 +74,7 @@ small{color:#b9ac8a}
 const st=document.getElementById('stage');
 function play(){st.classList.remove('play');void st.offsetWidth;st.classList.add('play')}
 document.getElementById('replay').onclick=play;
-const bgs=['#FAC02C','#FFF4D6','#116FB8','#1B0C0A'];let i=0;
+const bgs=['#F7F5F0','#FAC02C','#E8F1F7','#FFF4D6'];let i=0;
 document.getElementById('bg').onclick=()=>{i=(i+1)%bgs.length;st.style.background=bgs[i];play()};
 </script>
 </body>
