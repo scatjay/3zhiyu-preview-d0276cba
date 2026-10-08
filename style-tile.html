@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta name="robots" content="noindex,nofollow"><style>html{visibility:hidden}</style><script type="module" src="gate.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>三知餘 設計系統 v2 | Style Tile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 系統層：中性底色 */
+  --paper:#F7F5F0; --card:#FFFFFF; --ink:#14202B; --muted:#5B6773; --line:#DDD8CE;
+  /* 品牌記號：只當小點綴，不當大面積底色 */
+  --fish-blue:#116FB8; --fish-red:#C30F23; --eye-yellow:#FAC02C; --logo-ink:#1B0C0A;
+  --ease:cubic-bezier(.22,.9,.3,1);
+}
+@media (prefers-color-scheme:dark){:root{--paper:#0E1A24;--card:#15263A;--ink:#EAF0F5;--muted:#9FB0C0;--line:#26394D}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.8 "Noto Sans TC",system-ui,sans-serif}
+.serif{font-family:"Noto Serif TC",serif}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{padding:56px 0 30px;border-bottom:1px solid var(--line)}
+.eyebrow{letter-spacing:.28em;font-size:.78rem;color:var(--muted)}
+h1{font-family:"Noto Serif TC",serif;font-weight:900;font-size:clamp(2rem,6vw,3.6rem);line-height:1.2;margin:.3em 0}
+h1 .dots i{display:inline-block;width:.34em;height:.34em;border-radius:50%;margin-left:.12em;vertical-align:.1em}
+.lead{max-width:38em;color:var(--muted)}
+section{padding:54px 0 6px}
+h2{font-family:"Noto Serif TC",serif;font-size:1.45rem;margin:0 0 4px}
+h2 + p{margin:0 0 22px;color:var(--muted)}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.rule{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.rule b{display:block;font-family:"Noto Serif TC",serif;font-size:1.05rem;margin-bottom:4px}
+.sw{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.chip{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.chip i{display:block;height:74px}
+.chip div{padding:9px 12px;font-size:.84rem;line-height:1.5}
+.chip code{color:var(--muted)}
+.ratio{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:18px 0 6px;border:1px solid var(--line)}
+.ratio span{display:block;height:100%}
+.ratio-l{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);flex-wrap:wrap;gap:6px}
+/* 專案主題：每個專案只換這幾個變數 */
+.themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.pj{--bg:#fff;--fg:#14202B;--a:#116FB8;--b:#C30F23;--on:#fff;
+  background:var(--bg);color:var(--fg);border-radius:20px;padding:20px;border:1px solid color-mix(in srgb,var(--fg) 14%,transparent);
+  position:relative;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.pj:hover{transform:translateY(-6px);box-shadow:0 18px 30px -18px color-mix(in srgb,var(--fg) 60%,transparent)}
+.pj h3{font-family:"Noto Serif TC",serif;margin:.1em 0 .25em;font-size:1.15rem}
+.pj p{margin:0 0 12px;font-size:.88rem;opacity:.85;line-height:1.65}
+.pj .tag{font-size:.7rem;letter-spacing:.12em;opacity:.7}
+.pj .btn{display:inline-block;background:var(--a);color:var(--on);border-radius:999px;padding:.35em 1.1em;font-weight:700;font-size:.85rem;text-decoration:none}
+.pj .sig{position:absolute;right:16px;top:16px;display:flex;gap:4px}
+.pj .sig i{width:9px;height:9px;border-radius:50%}
+.pj .sig i:nth-child(1){background:var(--fish-blue)}.pj .sig i:nth-child(2){background:var(--fish-red)}.pj .sig i:nth-child(3){background:var(--eye-yellow)}
+.pj .bar{height:6px;border-radius:99px;background:linear-gradient(90deg,var(--a),var(--b));margin:0 0 14px;width:56%}
+.t-story{--bg:#F6EFE3;--fg:#2A1F1A;--a:#B5342C;--b:#1F4B4A}
+.t-poj{--bg:#EAF1F6;--fg:#12263A;--a:#116FB8;--b:#C30F23}
+.t-sci{--bg:#0F2A3F;--fg:#E8F3F8;--a:#3CC8D8;--b:#FFB04A;--on:#07202F}
+.t-walk{--bg:#F3E6DA;--fg:#3A261B;--a:#B65C3A;--b:#4C6B4F}
+.t-edu{--bg:#12294A;--fg:#F5F1EA;--a:#FF6B5A;--b:#F5F1EA;--on:#12294A}
+.t-un{--bg:#F1F1EF;--fg:#23272F;--a:#3D8F8F;--b:#E07A5F}
+.t-thu{--bg:#E8EEE9;--fg:#1E2F29;--a:#2F5D50;--b:#A97142}
+.t-sheet{--bg:#FBFBFA;--fg:#23272F;--a:#17A673;--b:#23272F}
+/* 動態：游 */
+.motion{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.mo{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.mo h3{margin:0 0 4px;font-family:"Noto Serif TC",serif;font-size:1.05rem}
+.mo small{color:var(--muted);display:block;margin-bottom:12px}
+.swim-link{position:relative;display:inline-block;color:var(--ink);text-decoration:none;font-weight:700;padding-bottom:4px}
+.swim-link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--fish-blue),var(--fish-red));transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.swim-link:hover::after{transform:scaleX(1)}
+.stag{display:flex;gap:8px}
+.stag i{width:46px;height:46px;border-radius:14px;opacity:0;transform:translate(-18px,10px) rotate(-10deg)}
+.stag.go i{animation:swimin .8s var(--ease) forwards}
+.stag i:nth-child(1){background:var(--fish-blue)}.stag i:nth-child(2){background:var(--fish-red);animation-delay:.14s!important}.stag i:nth-child(3){background:var(--eye-yellow);animation-delay:.28s!important}
+@keyframes swimin{to{opacity:1;transform:none}}
+.rip{position:relative;height:120px;border-radius:14px;background:color-mix(in srgb,var(--fish-blue) 8%,var(--paper));overflow:hidden;cursor:pointer}
+.rip span{position:absolute;border:2px solid var(--fish-blue);border-radius:50%;width:10px;height:10px;transform:translate(-50%,-50%);opacity:.8;animation:ripple 1.2s ease-out forwards;pointer-events:none}
+@keyframes ripple{to{width:140px;height:140px;opacity:0}}
+.rip em{position:absolute;inset:auto 0 8px;text-align:center;font-style:normal;font-size:.8rem;color:var(--muted)}
+.btn2{font:700 .9rem "Noto Sans TC";border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:.4em 1.1em;cursor:pointer;margin-top:10px}
+.btn2:hover{background:var(--ink);color:var(--paper)}
+/* 即時換主題 */
+.live{display:grid;grid-template-columns:1fr;gap:14px}
+.sel{display:flex;gap:8px;flex-wrap:wrap}
+.sel button{font:700 .84rem "Noto Sans TC";border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:.3em 1em;cursor:pointer}
+.sel button.on{background:var(--ink);color:var(--paper)}
+.demo{border-radius:22px;padding:26px;transition:background .6s var(--ease),color .6s var(--ease)}
+.demo .qq{font-family:"Noto Serif TC",serif;font-size:1.3rem;font-weight:900;margin:.1em 0 .6em}
+.demo .opt{display:block;width:100%;text-align:left;margin:8px 0;padding:11px 14px;border-radius:12px;border:2px solid var(--fg);background:transparent;color:var(--fg);font:inherit;font-weight:700;cursor:pointer;transition:all .3s var(--ease)}
+.demo .opt:hover{background:var(--a);color:var(--on);border-color:var(--a);transform:translateX(6px)}
+footer{padding:40px 0 70px;color:var(--muted);font-size:.86rem}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal,.stag i{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="eyebrow">3ZHIYU · DESIGN SYSTEM v2</div>
+  <h1>中性的底，<br>每個專案自己的顏色<span class="dots"><i style="background:#116FB8"></i><i style="background:#C30F23"></i><i style="background:#FAC02C"></i></span></h1>
+  <p class="lead">logo 的黃色不再當大面積底色。系統用安靜的中性色，品牌三色（魚藍、魚紅、眼黃）只做小記號；每個專案換自己的主題色，但共用同一套字型、間距與「游」的動態。</p>
+</header>
+
+<section class="reveal">
+  <h2>三條規則</h2><p>讓整站有一致感，又不會每頁長得一樣。</p>
+  <div class="rules">
+    <div class="rule"><b>1 · 底色中性</b>整站底色是暖白或深海藍，不用黃。文字永遠是深墨藍，閱讀最舒服。</div>
+    <div class="rule"><b>2 · 品牌色當記號</b>魚藍、魚紅、眼黃只出現在 logo、小圓點、連結底線這類尺寸小的地方；黃色整頁不超過 2%。</div>
+    <div class="rule"><b>3 · 專案自帶主題</b>每個專案只換四個變數（底、字、主色、副色）。一個 demo 的顏色該服務它的題材，而不是服務 logo。</div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>系統色票與用量</h2><p>左邊是底與字，右邊是品牌小記號。</p>
+  <div class="sw">
+    <div class="chip"><i style="background:#F7F5F0"></i><div><b>暖白紙</b><br><code>#F7F5F0</code><br>淺色底</div></div>
+    <div class="chip"><i style="background:#0E1A24"></i><div><b>深海藍</b><br><code>#0E1A24</code><br>深色底</div></div>
+    <div class="chip"><i style="background:#14202B"></i><div><b>墨藍字</b><br><code>#14202B</code><br>主要文字</div></div>
+    <div class="chip"><i style="background:#116FB8"></i><div><b>魚藍</b><br><code>#116FB8</code><br>連結、主要互動</div></div>
+    <div class="chip"><i style="background:#C30F23"></i><div><b>魚紅</b><br><code>#C30F23</code><br>強調、印章</div></div>
+    <div class="chip"><i style="background:#FAC02C"></i><div><b>眼黃</b><br><code>#FAC02C</code><br>只做亮點，≤2%</div></div>
+  </div>
+  <div class="ratio"><span style="width:72%;background:#F7F5F0"></span><span style="width:20%;background:#14202B"></span><span style="width:5%;background:#116FB8"></span><span style="width:2%;background:#C30F23"></span><span style="width:1%;background:#FAC02C"></span></div>
+  <div class="ratio-l"><span>中性底 72%</span><span>墨字 20%</span><span>魚藍 5%</span><span>魚紅 2%</span><span>眼黃 1%</span></div>
+</section>
+
+<section class="reveal">
+  <h2>專案主題：八種顏色，同一套系統</h2><p>右上角三個小圓點是固定的品牌記號，卡片顏色則由專案決定。</p>
+  <div class="themes">
+    <article class="pj t-story"><div class="sig"><i></i><i></i><i></i></div><div class="tag">少年說書人</div><div class="bar"></div><h3>改編三招</h3><p>紙與朱墨，像一本翻開的故事書。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-poj"><div class="sig"><i></i><i></i><i></i></div><div class="tag">白話字小學堂</div><div class="bar"></div><h3>解碼石板</h3><p>淡藍灰紙面，魚藍與紅印章呼應 logo。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-sci"><div class="sig"><i></i><i></i><i></i></div><div class="tag">科學探究</div><div class="bar"></div><h3>調一個變因</h3><p>深夜藍與亮青，適合實驗與模擬。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-walk"><div class="sig"><i></i><i></i><i></i></div><div class="tag">府城走讀</div><div class="bar"></div><h3>味道採集</h3><p>陶土與苔綠，帶著老街的溫度。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-edu"><div class="sig"><i></i><i></i><i></i></div><div class="tag">升學輔導</div><div class="bar"></div><h3>備審顧問</h3><p>海軍藍加珊瑚，穩重但不嚴肅。</p><a class="btn" href="#">預約</a></article>
+    <article class="pj t-un"><div class="sig"><i></i><i></i><i></i></div><div class="tag">故事聯合國</div><div class="bar"></div><h3>故事卡拼圖</h3><p>淺灰底、柔和多色，容納不同國家的故事。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-thu"><div class="sig"><i></i><i></i><i></i></div><div class="tag">東海中文課程</div><div class="bar"></div><h3>超文本地景</h3><p>灰綠與古銅，貼近校園與詩學。</p><a class="btn" href="#">玩玩看</a></article>
+    <article class="pj t-sheet"><div class="sig"><i></i><i></i><i></i></div><div class="tag">學習單與後台</div><div class="bar"></div><h3>課堂儀表板</h3><p>近白底與薄荷綠，資料多也不累。</p><a class="btn" href="#">看展示</a></article>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>同一個 demo，換主題就換個性</h2><p>點下面的主題，看同一題換顏色。只改四個變數，其餘程式完全相同。</p>
+  <div class="live">
+    <div class="sel" id="sel"></div>
+    <div class="demo pj t-poj" id="demo">
+      <div class="tag">第 1 / 7 題</div>
+      <div class="qq">Tâi-oân 是什麼意思？</div>
+      <button class="opt">台南</button><button class="opt">臺灣</button><button class="opt">臺語</button>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2>動態語言：「游」</h2><p>三隻魚的游動感：起步慢、尾端輕輕甩一下。動作都小，不搶內容。</p>
+  <div class="motion">
+    <div class="mo"><h3>連結：游過的底線</h3><small>滑過時，藍到紅的線從左游到右。</small><a class="swim-link" href="#">看更多專案</a></div>
+    <div class="mo"><h3>入場：依序游入</h3><small>三個元素依序、帶一點旋轉進場。</small><div class="stag" id="stag"><i></i><i></i><i></i></div><button class="btn2" id="replay">重播</button></div>
+    <div class="mo"><h3>回饋：水波</h3><small>點下去，在點擊處漾開一圈水波。</small><div class="rip" id="rip"><em>點這裡</em></div></div>
+  </div>
+</section>
+
+<footer>草稿・色票與動態待楊老師確認｜字型：Noto Serif TC（標題）、Noto Sans TC（內文）</footer>
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');if(e.target.querySelector('#stag'))go()}}),{threshold:.2});
+document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
+const stag=document.getElementById('stag');
+function go(){stag.classList.remove('go');void stag.offsetWidth;stag.classList.add('go')}
+document.getElementById('replay').onclick=go;
+const rip=document.getElementById('rip');
+rip.addEventListener('pointerdown',e=>{const r=rip.getBoundingClientRect(),s=document.createElement('span');s.style.left=(e.clientX-r.left)+'px';s.style.top=(e.clientY-r.top)+'px';rip.appendChild(s);setTimeout(()=>s.remove(),1300)});
+const names={"t-story":"說書人","t-poj":"白話字","t-sci":"科學","t-walk":"走讀","t-edu":"升學","t-un":"聯合國","t-thu":"東海","t-sheet":"學習單"};
+const sel=document.getElementById('sel'),demo=document.getElementById('demo');
+Object.keys(names).forEach(k=>{const b=document.createElement('button');b.textContent=names[k];if(k==='t-poj')b.classList.add('on');
+  b.onclick=()=>{demo.className='demo pj '+k;sel.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on')};sel.appendChild(b)});
+</script>
+</body>
+</html>

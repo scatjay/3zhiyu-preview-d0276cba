@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>登入 | 三知餘預覽</title>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0E1A24;color:#EAF0F5;font:16px/1.8 "Noto Sans TC",system-ui,sans-serif}
+.box{max-width:360px;padding:28px;border:1px solid #26394D;border-radius:18px;background:#15263A;text-align:center}
+button{font:700 1rem system-ui;padding:.7em 1.4em;border-radius:999px;border:0;background:#EAF0F5;color:#0E1A24;cursor:pointer}
+#msg{margin-top:14px;color:#ffb4a8;min-height:1.6em;font-size:.92rem}</style></head>
+<body><div class="box"><h2 style="margin:.2em 0">三知餘 · 預覽草稿</h2><p>僅限授權的 Google 帳號。</p>
+<button id="go">用 Google 登入</button><div id="msg"></div></div>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyBwPR0oE5VK0eBlqq8JY1B56UXy3R9cyng",
+  authDomain: "gen-lang-client-0929530380.firebaseapp.com",
+  databaseURL: "https://gen-lang-client-0929530380-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "gen-lang-client-0929530380",
+};
+const ALLOWED = ["scatjay@gmail.com"];
+const auth = getAuth(initializeApp(firebaseConfig));
+const msg = document.getElementById("msg");
+const next = new URLSearchParams(location.search).get("next") || "./index.html";
+function go() { location.replace(next.startsWith("/") ? next : "./" + next); }
+onAuthStateChanged(auth, async (u) => {
+  if (!u) return;
+  if (ALLOWED.includes(u.email)) go();
+  else { msg.textContent = "此帳號沒有權限：" + u.email; await signOut(auth); }
+});
+document.getElementById("go").onclick = async () => {
+  msg.textContent = "";
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch (e) { msg.textContent = "登入失敗：" + (e.code || e.message); }
+};
+</script></body></html>

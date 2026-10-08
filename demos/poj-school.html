@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta name="robots" content="noindex,nofollow"><style>html{visibility:hidden}</style><script type="module" src="../gate.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>白話字小學堂 | 三知餘文化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Charis+SIL:wght@400;700&family=Gentium+Plus:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--y:#FAC02C;--ink:#1B0C0A;--blue:#116FB8;--red:#C30F23;--paper:#FFF7E0;--ease:cubic-bezier(.2,.9,.3,1)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--y);color:var(--ink);font:17px/1.8 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+.app{max-width:640px;margin:0 auto;padding:18px 16px 56px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+header b{letter-spacing:.04em}
+.tiles{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.tile{width:22px;height:22px;border:2.5px solid var(--ink);border-radius:6px;opacity:.3;transition:all .45s var(--ease)}
+.tile.on{opacity:1;background:var(--ink);transform:rotate(-8deg) scale(1.1)}
+h1{font-size:1.65rem;line-height:1.35;margin:.7em 0 .2em;font-weight:900}
+.sub{margin:0 0 14px;opacity:.82}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:18px;box-shadow:6px 6px 0 var(--ink);margin:14px 0;animation:rise .5s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;font-weight:700;font-size:.78rem;padding:2px 10px;border-radius:999px;background:var(--ink);color:var(--y);margin-bottom:8px}
+.poj{font:700 2.3rem/1.3 "Charis SIL","Gentium Plus","Noto Serif","Segoe UI",serif;text-align:center;margin:.1em 0 .3em;letter-spacing:.02em}
+.opts{display:grid;gap:10px}
+button.opt{font:inherit;text-align:center;cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:14px;padding:10px;box-shadow:3px 3px 0 var(--ink);transition:transform .2s var(--ease),background .2s,box-shadow .2s;font-weight:700}
+button.opt:hover,button.opt:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:#FFF1B8;outline:none}
+button.opt.ok{background:#bfe3c0}button.opt.no{background:#f5b7b1;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fact{background:var(--blue);color:#fff;border-radius:14px;padding:12px 14px;margin-top:12px;font-size:.95rem;line-height:1.7}
+.fact b{color:var(--y)}
+.btn{font:inherit;font-weight:700;cursor:pointer;border:3px solid var(--ink);background:var(--ink);color:var(--y);border-radius:999px;padding:.55em 1.3em;margin-top:12px;transition:transform .2s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.events{display:grid;gap:10px}
+.ev{font:inherit;text-align:left;cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:14px;padding:10px 12px;box-shadow:3px 3px 0 var(--ink);transition:all .25s var(--ease)}
+.ev:hover{background:#FFF1B8}
+.ev.done{background:var(--ink);color:var(--y);cursor:default;box-shadow:none;transform:rotate(-.6deg)}
+.ev .yr{display:inline-block;min-width:3.4em;font-weight:900;color:var(--red)}
+.ev.done .yr{color:#fff}
+.ev.bad{animation:shake .35s;background:#f5b7b1}
+.step{font-weight:700;opacity:.8;margin-bottom:6px}
+.big{font-size:2rem;font-weight:900;margin:.1em 0}
+.center{text-align:center}
+.hide{display:none}
+footer{margin-top:20px;font-size:.78rem;opacity:.72}
+@media (max-width:480px){header b{font-size:.92rem}.tile{width:17px;height:17px;border-width:2px}.tiles{gap:3px;flex-wrap:nowrap}.poj{font-size:2rem}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header><b>三知餘 · 白話字小學堂</b><div class="tiles" id="tiles" aria-label="石板碎片"></div></header>
+  <h1>用拉丁字母，<br>寫下台語。</h1>
+  <p class="sub">解 7 個字、排 5 件大事，集滿石板碎片，成為白話字小學徒。</p>
+
+  <section class="card" id="q">
+    <span class="tag" id="qtag">第一關</span>
+    <div class="step" id="qstep"></div>
+    <div class="poj" id="qpoj"></div>
+    <div class="opts" id="qopts"></div>
+    <div class="fact hide" id="qfact"></div>
+    <div class="center"><button class="btn hide" id="qnext">下一題</button></div>
+  </section>
+
+  <section class="card hide" id="order">
+    <span class="tag">第二關：排大事</span>
+    <p style="margin:.2em 0 10px">這五件事打亂了，請依發生的先後，從最早的開始點。</p>
+    <div class="events" id="events"></div>
+    <div class="fact hide" id="ofact"></div>
+  </section>
+
+  <section class="card center hide" id="end">
+    <div class="big" id="endtitle"></div>
+    <p id="endtext"></p>
+    <button class="btn" id="again">再玩一次</button>
+    <button class="btn ghost" id="copy">複製成績</button>
+  </section>
+
+  <footer>三知餘文化有限公司 · 展示用 demo · 題目與文字為自行撰寫，史實內容上線前將再與出版品核對。</footer>
+</div>
+
+<script>
+const Q=[
+{p:"Tâi-oân",a:"台灣",w:["台南","臺語"],f:"<b>知識：</b>整個詞都用拉丁字母寫成，音節之間用連字號（-）連起來。"},
+{p:"Tâi-gí",a:"台語",w:["台灣","白話"],f:"<b>知識：</b>字母上的小符號是「聲調記號」，聲調不同，意思就可能不同。"},
+{p:"chheh",a:"冊（書）",w:["茶","字"],f:"<b>知識：</b>「chh」是一個音（送氣的 ts），用兩個字母拼；白話字用字母組合來表示台語的音。"},
+{p:"lâng",a:"人",w:["龍","農"],f:"<b>知識：</b>â 上面的「^」是聲調記號；同樣的 lang，換一個符號就換一個字。"},
+{p:"Sáⁿ-mih",a:"什麼",w:["三明治","山谷"],f:"<b>知識：</b>字母右上角的小 ⁿ 代表「鼻音」，念的時候氣要從鼻子出來。"},
+{p:"kō͘",a:"用、以",w:["哭","苦"],f:"<b>知識：</b>o 的右上角加一點（o͘）代表另一個 o 音，是台語有、華語沒有的聲音。"},
+{p:"Pe̍h-ōe-jī",a:"白話字",w:["白話文","百合子"],f:"<b>知識：</b>這個名字本身就示範了全部規則：連字號、聲調記號，還有拉丁字母。"}
+];
+const E=[
+{y:1865,t:"馬雅各醫師在台南設立傳教本部，開始在台南推行白話字。"},
+{y:1885,t:"巴克禮牧師創刊《台灣府城教會報》，讓白話字在台灣扎根。"},
+{y:1923,t:"台灣文化協會決議推廣白話字。"},
+{y:1969,t:"政府下令禁止教會公報使用白話字。"},
+{y:1987,t:"解嚴後，台語文運動重新興起，白話字再度被推廣。"}
+];
+const $=s=>document.querySelector(s),sh=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const tiles=$('#tiles');let idx=0,score=0,order=[],next=0,lastScore="";
+function buildTiles(){tiles.innerHTML="";for(let i=0;i<Q.length;i++){const d=document.createElement('i');d.className='tile';d.id='t'+i;tiles.appendChild(d)}}
+function show(id){$(id).classList.remove('hide')}function hide(id){$(id).classList.add('hide')}
+function ask(){
+  const q=Q[idx];$('#qstep').textContent=`第 ${idx+1} / ${Q.length} 題・這個字是什麼意思？`;$('#qpoj').textContent=q.p;
+  $('#qfact').classList.add('hide');hide('#qnext');
+  const box=$('#qopts');box.innerHTML="";
+  sh([q.a,...q.w]).forEach(o=>{const b=document.createElement('button');b.className='opt';b.textContent=o;
+    b.onclick=()=>{
+      if(box.dataset.lock)return;
+      if(o===q.a){box.dataset.lock=1;b.classList.add('ok');score++;$('#t'+idx).classList.add('on');
+        $('#qfact').innerHTML=q.f;show('#qfact');$('#qnext').textContent=idx===Q.length-1?'進入第二關':'下一題';show('#qnext')}
+      else{b.classList.add('no');b.disabled=true}};
+    box.appendChild(b)});
+  delete box.dataset.lock;
+}
+$('#qnext').onclick=()=>{idx++;if(idx<Q.length){ask()}else{hide('#q');startOrder()}};
+function startOrder(){
+  next=0;show('#order');$('#ofact').classList.add('hide');
+  const box=$('#events');box.innerHTML="";
+  sh(E.map((e,i)=>({...e,i}))).forEach(e=>{
+    const b=document.createElement('button');b.className='ev';b.innerHTML=`<span class="yr">？？？</span>${e.t}`;
+    b.onclick=()=>{
+      if(b.classList.contains('done'))return;
+      if(e.i===next){b.classList.add('done');b.querySelector('.yr').textContent=e.y;next++;
+        if(next===E.length){$('#ofact').innerHTML="<b>知識：</b>白話字從教會走向民間，歷經兩次被禁，到解嚴後才重新被看見。語言與文字的命運，常跟政治環境連在一起。";show('#ofact');setTimeout(finish,1400)}}
+      else{b.classList.add('bad');setTimeout(()=>b.classList.remove('bad'),400)}};
+    box.appendChild(b)});
+}
+function finish(){
+  hide('#order');show('#end');
+  const full=score===Q.length;
+  $('#endtitle').textContent=full?'白話字小學徒':'白話字見習生';
+  $('#endtext').textContent=`石板碎片 ${score} / ${Q.length}。`+(full?'你把拼寫規則和歷史順序都弄通了！':'再玩一次，把沒答對的字補齊。');
+  lastScore=`我在三知餘「白話字小學堂」拿到 ${score}/${Q.length} 塊石板碎片，成為${full?'白話字小學徒':'白話字見習生'}。`;
+}
+$('#again').onclick=()=>{idx=0;score=0;buildTiles();hide('#end');show('#q');ask();window.scrollTo({top:0,behavior:'smooth'})};
+$('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(lastScore);$('#copy').textContent='已複製'}catch(e){$('#copy').textContent='請手動複製'}};
+buildTiles();ask();
+</script>
+</body>
+</html>

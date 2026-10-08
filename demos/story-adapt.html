@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta name="robots" content="noindex,nofollow"><style>html{visibility:hidden}</style><script type="module" src="../gate.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>改編三招 · 說書人小遊戲 | 三知餘文化</title>
+<style>
+:root{--y:#FAC02C;--ink:#1B0C0A;--blue:#116FB8;--red:#C30F23;--paper:#FFF7E0;--ease:cubic-bezier(.2,.9,.3,1)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--y);color:var(--ink);font:17px/1.8 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+.app{max-width:640px;margin:0 auto;padding:20px 16px 56px}
+header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+header b{font-size:1.05rem;letter-spacing:.04em}
+.badges{display:flex;gap:6px}
+.badge{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:.95rem;border:3px solid var(--ink);background:transparent;color:var(--ink);opacity:.35;transition:all .5s var(--ease)}
+.badge.on{opacity:1;background:var(--ink);color:var(--y);transform:rotate(-8deg) scale(1.08)}
+h1{font-size:1.7rem;line-height:1.35;margin:.8em 0 .2em;font-weight:900}
+.sub{margin:0 0 18px;opacity:.8}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:18px;padding:18px 18px 20px;box-shadow:6px 6px 0 var(--ink);margin:14px 0;animation:rise .55s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.tag{display:inline-block;font-weight:700;font-size:.78rem;padding:2px 10px;border-radius:999px;background:var(--ink);color:var(--y);margin-bottom:8px}
+.orig{font-family:"Noto Serif TC",serif}
+.choices{display:grid;gap:10px;margin-top:10px}
+.choices.tone{grid-template-columns:repeat(3,1fr)}
+button.opt{font:inherit;text-align:left;cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:14px;padding:12px 14px;transition:transform .2s var(--ease),background .2s,box-shadow .2s;box-shadow:3px 3px 0 var(--ink)}
+button.opt:hover,button.opt:focus-visible{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);background:#FFF1B8;outline:none}
+button.opt b{display:block;font-size:1.05rem}
+button.opt small{opacity:.75;font-size:.82rem;line-height:1.4;display:block}
+.tone button.opt{text-align:center;padding:12px 6px}
+.out{font-family:"Noto Serif TC",serif;font-size:1.08rem;line-height:1.95;border-left:6px solid var(--blue);padding-left:14px;margin:8px 0}
+.know{background:var(--blue);color:#fff;border-radius:14px;padding:12px 14px;margin-top:12px;font-size:.95rem;line-height:1.7}
+.know b{color:var(--y)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{font:inherit;font-weight:700;cursor:pointer;border:3px solid var(--ink);background:var(--ink);color:var(--y);border-radius:999px;padding:.55em 1.3em;transition:transform .2s var(--ease)}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.final{text-align:center}
+.final .big{font-size:2.2rem;font-weight:900;margin:.2em 0}
+.fish{display:inline-flex;gap:8px;font-size:2rem}
+.fish span{animation:swim 2.4s ease-in-out infinite}.fish span:nth-child(2){animation-delay:.3s;color:var(--blue)}.fish span:nth-child(3){animation-delay:.6s;color:var(--red)}
+@keyframes swim{50%{transform:translate(4px,-6px) rotate(6deg)}}
+.hide{display:none}
+footer{margin-top:22px;font-size:.78rem;opacity:.7}
+@media (max-width:480px){.choices.tone{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <b>三知餘 · 說書人小遊戲</b>
+    <div class="badges" aria-label="已收集的改編徽章">
+      <span class="badge" id="b-view" title="換視角">視</span>
+      <span class="badge" id="b-conf" title="換衝突">衝</span>
+      <span class="badge" id="b-end" title="換結局">結</span>
+    </div>
+  </header>
+
+  <h1>同一個故事，<br>你會怎麼改編？</h1>
+  <p class="sub">用 3 個動作，把老故事變成你的版本，集滿 3 枚徽章。</p>
+
+  <section class="card" id="origin">
+    <span class="tag">原版故事</span>
+    <p class="orig">山裡的夜晚，一位「婆婆」來到兩個孩子家借宿。姊姊發現婆婆的手毛茸茸的，覺得不對勁，想了個辦法才逃出來。</p>
+    <p style="margin:.3em 0 0;font-size:.85rem;opacity:.75">（取自流傳很廣的民間故事，這裡只用一段概述。）</p>
+  </section>
+
+  <section class="card" id="step1">
+    <span class="tag">第 1 步：選一招改編</span>
+    <div class="choices">
+      <button class="opt" data-m="view"><b>換視角</b><small>不從孩子，改從「婆婆」的角度說。</small></button>
+      <button class="opt" data-m="conf"><b>換衝突</b><small>敵人不是怪物，而是別的困難。</small></button>
+      <button class="opt" data-m="end"><b>換結局</b><small>不再是逃走，故事怎麼收尾由你決定。</small></button>
+    </div>
+  </section>
+
+  <section class="card hide" id="step2">
+    <span class="tag">第 2 步：選一種語氣</span>
+    <div class="choices tone">
+      <button class="opt" data-t="spooky"><b>懸疑</b></button>
+      <button class="opt" data-t="warm"><b>溫暖</b></button>
+      <button class="opt" data-t="funny"><b>幽默</b></button>
+    </div>
+  </section>
+
+  <section class="card hide" id="result">
+    <span class="tag" id="rtag">你的改編</span>
+    <p class="out" id="rtext"></p>
+    <div class="know" id="rknow"></div>
+    <div class="row"><button class="btn" id="again">再改一次</button><button class="btn ghost" id="copy">複製我的版本</button></div>
+  </section>
+
+  <section class="card final hide" id="final">
+    <div class="fish"><span>魚</span><span>魚</span><span>魚</span></div>
+    <div class="big">三招全會了！</div>
+    <p>你已經用過換視角、換衝突、換結局，是合格的說書人了。<br>想看更多故事遊戲，歡迎來三知餘玩。</p>
+  </section>
+
+  <footer>三知餘文化有限公司 · 展示用 demo · 故事文字為自行改寫，無任何業主或活動資料。</footer>
+</div>
+
+<script>
+const T={
+view:{name:"換視角",know:"<b>知識：</b>同一件事，換誰來說，讀者同情的人就會不同。改編時先問：「這件事，還有誰在場？」",
+ spooky:"我不記得上一次有人敲過我家的門。那天夜裡，我只是想借一點火。可是門後的孩子盯著我的手，臉色一點一點地白了。我低頭看，才發現自己的手，已經不像人的手了。",
+ warm:"我只是個走了很遠山路的老人，想找個地方烤火。那兩個孩子看我的眼神像看一頭野獸。我心裡忽然酸了：原來我已經孤單到，連一句問候都不敢期待。",
+ funny:"我，山裡最會借宿的婆婆，今晚也要有床睡！可是那個小姐姐一直盯著我的手：「婆婆，您的手怎麼這麼多毛？」唉，我昨天忘了刮，我也很尷尬啊。"},
+conf:{name:"換衝突",know:"<b>知識：</b>故事的推力來自「衝突」。把敵人換成別的困難（天氣、誤會、秘密），同一個場景就會變成另一種故事。",
+ spooky:"山路被夜霧吞掉了。兩個孩子聽見屋外有腳步聲，卻怎麼也看不到人。更可怕的是，姊姊發現弟弟一直在對著牆角說話，像是那裡有人回答他。",
+ warm:"暴雨沖斷了山路，婆婆被困在孩子的家。三個人沒有食物，只剩一小袋米。姊姊決定把米煮成一鍋粥，三個人圍著火，一人一口，等天亮。",
+ funny:"門外來的是一位迷路的婆婆，她堅持要先教兩個孩子打太極才肯進門。姊姊偷偷在弟弟耳邊說：「這比怪物還難纏，我們要想辦法讓她累。」"},
+end:{name:"換結局",know:"<b>知識：</b>結局決定故事想說的話。同樣的過程，收在「逃走」「和解」或「留白」，傳達的價值就不一樣。",
+ spooky:"姊姊跑出門外，回頭一看，屋子的燈全滅了。她再也沒有回去，但每年那一天，山裡的風都會敲三下門，像是在問：「你還記得我嗎？」",
+ warm:"天亮後，姊姊把一碗熱粥放在門口。婆婆吃完，輕輕說了聲謝謝。後來山裡再也沒有傳說，只剩下一個每年冬天都來借火的老人。",
+ funny:"最後婆婆被帶去村裡的老人會館，現在每週三教大家跳舞。姊姊說：「早知道她這麼能動，我當初就不用跑那麼快。」"}
+};
+const $=s=>document.querySelector(s);
+let m=null,done=new Set(),last="";
+function show(id){document.getElementById(id).classList.remove('hide')}
+function hide(id){document.getElementById(id).classList.add('hide')}
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{m=b.dataset.m;hide('result');show('step2');$('#step2').scrollIntoView({behavior:'smooth',block:'center'})});
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{
+  const d=T[m],txt=d[b.dataset.t];last=txt;
+  $('#rtag').textContent="你的改編・"+d.name;$('#rtext').textContent=txt;$('#rknow').innerHTML=d.know;
+  show('result');done.add(m);$('#b-'+m).classList.add('on');
+  $('#result').style.animation='none';void $('#result').offsetWidth;$('#result').style.animation='';
+  $('#result').scrollIntoView({behavior:'smooth',block:'center'});
+  if(done.size===3)show('final');
+});
+$('#again').onclick=()=>{hide('step2');hide('result');window.scrollTo({top:$('#step1').offsetTop-20,behavior:'smooth'})};
+$('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(last+"\n— 三知餘說書人小遊戲");$('#copy').textContent="已複製"}catch(e){$('#copy').textContent="請手動選取複製"}};
+</script>
+</body>
+</html>
